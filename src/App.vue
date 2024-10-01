@@ -37,6 +37,20 @@ body {
   color: var(--color); /* Set text color */
 }
 
+.separator {
+  animation-delay: 0.6s; /* Késleltetés az első LED elválasztónál */
+}
+
+
+@keyframes glow {
+  0% {
+    opacity: 0.5; /* Kezdeti fényesség */
+  }
+  100% {
+    opacity: 1; /* Maximális fényesség */
+  }
+}
+
 header {
   position: relative;
 }
@@ -58,14 +72,13 @@ header {
 
 /* LED-style separator line */
 .separator {
-  width: 100%;
-  height: 4px; /* Thickness of the separator */
-  background: linear-gradient(90deg, #4c00ff, #00bfff, #4c00ff); /* Gradient effect for LED */
-  margin: 20px 0; /* Space above and below the line */
-  border-radius: 2px; /* Slight rounding */
-  box-shadow: 
-    0 0 10px rgba(76, 0, 255, 0.5), /* Glow effect */
-    0 0 20px rgba(0, 187, 255, 0.5); /* Stronger glow */
+  height: 5px; /* Elválasztó vonal magassága */
+  width: 90%; /* Szélesség */
+  margin: 20px 0; /* Tér az elválasztó körül */
+  background: linear-gradient(90deg, #4c00ff, #00bfff, #4c00ff); /* LED-szerű hatás */
+  border-radius: 5px; /* Lekerekített sarkok */
+  box-shadow: 0 0 10px rgba(76, 0, 255, 0.5), 0 0 20px rgba(0, 187, 255, 0.5); /* Fényhatás */
+  animation: glow 1.5s infinite alternate; /* Pulzáló animáció */
 }
 
 /* Other styles remain unchanged */
