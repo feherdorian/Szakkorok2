@@ -2,6 +2,7 @@
   <div class="row">
     <div class="col-md-6 side-a">
       <h1 class="table-title">Táblázat</h1> <!-- A táblázat címe -->
+      <div class="led-separator2"></div> <!-- LED-stílusú elválasztó vonal -->
       <table class="content-table animacio" style="animation-delay: 1s">
         <thead>
           <tr>
@@ -12,10 +13,18 @@
         </thead>
         <tbody>
           <tr v-for="(tanulo, i) in tanulok" :key="i">
-            <td class="table-cell">{{ tanulo.nev }}</td> <!-- Tanuló neve -->
+            <td class="table-cell">
+              <span class="icon">
+                <!-- Person Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                  <path d="M3 14s-1 0-1-1 1-1 1-1h10s1 0 1 1-1 1-1 1H3zm8-9a3 3 0 1 0-6 0 3 3 0 0 0 6 0z"/>
+                </svg>
+              </span>
+              {{ tanulo.nev }}
+            </td> <!-- Tanuló neve -->
             <td class="table-cell">{{ tanulo.osztaly }}</td> <!-- Tanuló osztálya -->
             <td class="table-cell">
-              <select v-model="tanulo.szakkorId"> <!-- Szakkör kiválasztására szolgáló legördülő lista -->
+              <select v-model="tanulo.szakkorId" class="select"> <!-- Szakkör kiválasztására szolgáló legördülő lista -->
                 <option v-for="(szakkor, i) in szakkorok" :key="i" :value="szakkor.id">
                   {{ szakkor.nev }} <!-- Szakkör neve -->
                 </option>
@@ -83,13 +92,56 @@ export default {
     0 0 5px rgba(76, 0, 255, 0.8), /* Lila fényesség */
     0 0 10px rgba(0, 187, 255, 0.6); /* Kék fényesség */
 }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px); /* Enyhén lejjebb mozgás */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* Eredeti pozíció */
+  }
+}
+
+.table-title,
+.led-separator,
+.led-separator2,
+.content-table {
+  opacity: 0; /* Kezdetben láthatatlan */
+  animation: fadeIn 0.5s forwards; /* Fade-in animáció */
+}
+
+.table-title {
+  animation-delay: 0.2s; /* Késleltetés a címnél */
+}
+
+.led-separator {
+  animation-delay: 0.6s; /* Késleltetés az első LED elválasztónál */
+}
+
+.led-separator2 {
+  animation-delay: 0.8s; /* Késleltetés a második LED elválasztónál */
+}
+
+.content-table {
+  animation-delay: 0.4s; /* Késleltetés a táblázatnál */
+}
+
+@keyframes glow {
+  0% {
+    opacity: 0.5; /* Kezdeti fényesség */
+  }
+  100% {
+    opacity: 1; /* Maximális fényesség */
+  }
+}
 
 .content-table {
   border-collapse: collapse; /* Határok összevonása */
   margin: 25px 0; /* Margó a táblázat körül */
   font-size: 1em; /* Betűméret az olvashatóság érdekében */
   min-width: 800px; /* Minimális szélesség */
-  border-radius: 5px; /* Lekerekített sarkok */
+  border-radius: 10px; /* Lekerekített sarkok */
   overflow: hidden; /* Túlfolyás elrejtése */
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Árnyék a táblázat körül */
 }
@@ -101,25 +153,30 @@ export default {
   font-weight: bold; /* Fejléc szöveg félkövér */
 }
 
+
 .content-table th,
 .content-table td {
   padding: 12px 15px; /* Cellák közötti tér */
 }
 
 .content-table tbody tr {
-  border-bottom: 1px solid #dddddd; /* Alul határ a sorok között */
-  transition: 0.5s; /* Átmenet az effektusokhoz */
-  background-color: rgba(255, 255, 255, 0.1); /* Háttérszín a sorokhoz */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Alul határ a sorok között */
+  transition: background-color 0.3s; /* Átmenet az effektusokhoz */
+  background-color: rgba(255, 255, 255, 0.05); /* Háttérszín a sorokhoz */
+}
+
+.content-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Hover effektus a sorokhoz */
 }
 
 .content-table tbody tr:nth-of-type(even) {
-  background-color: rgba(255, 255, 255, 0.05); /* Páros sorok háttérszíne */
+  background-color: rgba(255, 255, 255, 0.02); /* Páros sorok háttérszíne */
 }
 
 .table-cell {
   color: var(--color); /* Szöveg színe a cellákban */
   font-weight: 500; /* Szöveg súlya */
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Cellák határai */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Cellák határai */
   border-radius: 5px; /* Lekerekített sarkok */
   background-color: rgba(255, 255, 255, 0.1); /* Cellák háttérszíne */
   transition: background-color 0.3s ease; /* Háttérszín átmenet */
@@ -129,17 +186,42 @@ export default {
   background-color: rgba(255, 255, 255, 0.2); /* Cellák háttérszínének változása hover esetén */
 }
 
+.icon {
+  display: inline-block; /* Inline blokk az ikon számára */
+  margin-right: 5px; /* Tér a név és az ikon között */
+  vertical-align: middle; /* Középre igazítás vertikálisan */
+}
+
 .select {
   padding: 6px 10px; /* Padding a legördülő listához */
   border: 1px solid var(--color); /* Határ színe a legördülő listához */
   border-radius: 5px; /* Lekerekített sarkok */
+  background-color: rgba(255, 255, 255, 0.1); /* Háttérszín */
+  color: var(--color); /* Szöveg színe */
+  transition: background-color 0.3s; /* Háttérszín átmenet */
+}
+
+.select:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* Hover effektus a legördülő listához */
 }
 
 .led-separator {
   height: 5px; /* Elválasztó vonal magassága */
-  width: 100%; /* Teljes szélesség */
+  width: 90%; /* Szélesség */
   margin: 20px 0; /* Tér az elválasztó körül */
-  background: linear-gradient(90deg, var(--color), #fff, var(--color)); /* Gradient hatás */
+  background: linear-gradient(90deg, #4c00ff, #00bfff, #4c00ff); /* LED-szerű hatás */
   border-radius: 5px; /* Lekerekített sarkok */
+  box-shadow: 0 0 10px rgba(76, 0, 255, 0.5), 0 0 20px rgba(0, 187, 255, 0.5); /* Fényhatás */
+  animation: glow 1.5s infinite alternate; /* Pulzáló animáció */
+}
+
+.led-separator2 {
+  height: 5px; /* Második elválasztó vonal magassága */
+  width: 20%; /* Szélesség */
+  margin: 2px auto; /* Középre igazítva, kis margóval */
+  background: linear-gradient(90deg, #4c00ff, #00bfff, #4c00ff); /* LED-szerű hatás */
+  border-radius: 5px; /* Lekerekített sarkok */
+  animation: glow 1.5s infinite alternate; /* Pulzáló animáció */
+  box-shadow: 0 0 10px rgba(76, 0, 255, 0.5), 0 0 20px rgba(0, 187, 255, 0.5); /* Fényhatás */
 }
 </style>
