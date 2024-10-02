@@ -22,32 +22,29 @@ import { RouterLink, RouterView } from "vue-router";
         </li>
       </ul>
     </header>
-
-    <div class="content-area border rounded p-4">
       <RouterView />
     </div>
-  </div>
 </template>
 
 <style>
 body {
-  background: black; /* Set background to black */
+  background: black;
   height: 100%;
   user-select: none;
-  color: var(--color); /* Set text color */
+  color: var(--color); 
 }
 
 .separator {
-  animation-delay: 0.6s; /* Késleltetés az első LED elválasztónál */
+  animation-delay: 0.6s; 
 }
 
 
 @keyframes glow {
   0% {
-    opacity: 0.5; /* Kezdeti fényesség */
+    opacity: 0.5; 
   }
   100% {
-    opacity: 1; /* Maximális fényesség */
+    opacity: 1; 
   }
 }
 
@@ -60,38 +57,35 @@ header {
   position: relative;
 }
 
-/* LED-style title text */
+
 .led-title {
   display: inline-block;
   position: relative;
-  color: var(--color); /* Title text color */
+  color: var(--color); 
   text-shadow: 
-    0 0 5px rgba(76, 0, 255, 1), /* Glow effect */
-    0 0 10px rgba(0, 187, 255, 0.7); /* Additional glow */
+    0 0 5px rgba(76, 0, 255, 1), 
+    0 0 10px rgba(0, 187, 255, 0.7); 
 }
 
-/* LED-style separator line */
+
 .separator {
-  height: 5px; /* Elválasztó vonal magassága */
-  width: 90%; /* Szélesség */
-  margin: 20px 0; /* Tér az elválasztó körül */
-  background: linear-gradient(90deg, #4c00ff, #00bfff, #4c00ff); /* LED-szerű hatás */
-  border-radius: 5px; /* Lekerekített sarkok */
-  box-shadow: 0 0 10px rgba(76, 0, 255, 0.5), 0 0 20px rgba(0, 187, 255, 0.5); /* Fényhatás */
-  animation: glow 1.5s infinite alternate; /* Pulzáló animáció */
+  height: 5px; 
+  width: 100%; 
+  margin: 20px 0;
+  background: linear-gradient(90deg, #4c00ff, #00bfff, #4c00ff); 
+  border-radius: 5px; 
+  box-shadow: 0 0 10px rgba(76, 0, 255, 0.5), 0 0 20px rgba(0, 187, 255, 0.5); 
+  animation: glow 1.5s infinite alternate; 
 }
 
-/* Other styles remain unchanged */
-.content-area {
-  border-radius: 5px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-}
+
+
 
 .nav li a {
   font-size: 16px;
   font-weight: 600;
   display: block;
-  color: var(--color); /* Set link color to the color variable */
+  color: var(--color); 
   padding: 5px 15px;
   text-decoration: none;
   transition: 0.5s;
