@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-md-6 side-a">
+    <div class="col-md-6 col-12 side-a">
       <h1 class="table-title">Táblázat</h1>
       <div class="led-separator2"></div>
       <table class="content-table animacio" style="animation-delay: 1s">
@@ -15,18 +15,30 @@
           <tr v-for="(tanulo, i) in tanulok" :key="i">
             <td class="table-cell">
               <span class="icon">
-
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person"
-                  viewBox="0 0 16 16">
-                  <path d="M3 14s-1 0-1-1 1-1 1-1h10s1 0 1 1-1 1-1 1H3zm8-9a3 3 0 1 0-6 0 3 3 0 0 0 6 0z" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-person"
+                  viewBox="0 0 16 16"
+                  :style="{ color: getIconColor(tanulo.nev) }" 
+                >
+                  <path
+                    d="M3 14s-1 0-1-1 1-1 1-1h10s1 0 1 1-1 1-1 1H3zm8-9a3 3 0 1 0-6 0 3 3 0 0 0 6 0z"
+                  />
                 </svg>
               </span>
               {{ tanulo.nev }}
-            </td> <!-- Tanuló neve -->
+            </td>
             <td class="table-cell">{{ tanulo.osztaly }}</td>
             <td class="table-cell">
               <select v-model="tanulo.szakkorId" class="select">
-                <option v-for="(szakkor, i) in szakkorok" :key="i" :value="szakkor.id">
+                <option
+                  v-for="(szakkor, i) in szakkorok"
+                  :key="i"
+                  :value="szakkor.id"
+                >
                   {{ szakkor.nev }}
                 </option>
               </select>
@@ -37,15 +49,18 @@
       <div class="led-separator"></div>
     </div>
 
-    <div class="col-md-6 side-b">
+    <div class="col-md-6 col-12 side-b">
       <div class="szakkor-lista">
-        <GyerekLista v-for="szakkor in szakkorok" :key="szakkor.id" :szakkor="szakkor" :tanulok="tanulok" />
+        <GyerekLista
+          v-for="szakkor in szakkorok"
+          :key="szakkor.id"
+          :szakkor="szakkor"
+          :tanulok="tanulok"
+        />
       </div>
     </div>
-
   </div>
 </template>
-
 <script>
 import GyerekLista from "../components/Gyereklista.vue";
 
@@ -55,15 +70,14 @@ export default {
   },
   data() {
     return {
-
       tanulok: [
-        { id: 1, nev: "Erős Pista", osztaly: "3a", szakkorId: 1 },
-        { id: 2, nev: "Gyenge Pista", osztaly: "7b", szakkorId: 1 },
+        { id: 1, nev: "Erős Anna ", osztaly: "3a", szakkorId: 1 },
+        { id: 2, nev: "Gyenge Julianna", osztaly: "7b", szakkorId: 1 },
         { id: 3, nev: "Kis Pista", osztaly: "1a", szakkorId: 1 },
         { id: 4, nev: "Ledacs-Kiss Pista", osztaly: "8a", szakkorId: 1 },
-        { id: 5, nev: "Tóth Pista", osztaly: "4c", szakkorId: 1 },
+        { id: 5, nev: "Tóth Margit", osztaly: "4c", szakkorId: 1 },
         { id: 6, nev: "Magyar Pista", osztaly: "9c", szakkorId: 1 },
-        { id: 7, nev: "Német Pista", osztaly: "10b", szakkorId: 1 },
+        { id: 7, nev: "Német Erzsébet", osztaly: "10b", szakkorId: 1 },
       ],
 
       szakkorok: [
@@ -76,8 +90,15 @@ export default {
       ],
     };
   },
+  methods: {
+    getIconColor(name) {
+      const girlNames = ["Anna", "Julianna", "Margit", "Erzsébet"]; 
+      return girlNames.some(girlName => name.includes(girlName)) ? "pink" : "blue";
+    },
+  },
 };
 </script>
+
 
 <style scoped>
 .table-title {
@@ -85,9 +106,7 @@ export default {
   color: var(--color);
   text-align: center;
   margin-bottom: 20px;
-  text-shadow:
-    0 0 5px rgba(76, 0, 255, 0.8),
-    0 0 10px rgba(0, 187, 255, 0.6);
+  text-shadow: 0 0 5px rgba(76, 0, 255, 0.8), 0 0 10px rgba(0, 187, 255, 0.6);
 }
 
 @keyframes fadeIn {
@@ -138,7 +157,6 @@ export default {
   animation: slideIn 0.8s bounce-in;
   animation-delay: 1s;
 }
-
 
 @keyframes glow {
   0% {
@@ -216,7 +234,7 @@ export default {
 }
 
 .select:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: var(--color);
 }
 
 .led-separator {

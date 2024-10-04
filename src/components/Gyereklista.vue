@@ -1,4 +1,4 @@
-<template>
+<template>  
   <div class="szakkor-card animacio" style="animation-delay: 2s">
     <div class="szakkor-header">
       <h2>{{ szakkor.nev }}</h2>
@@ -9,12 +9,9 @@
 
     <div class="led-separator"></div>
 
-
     <div v-if="tanulokCsoportja.length > 0" class="szakkor-gyerekek">
       <span v-for="(tanulo, i) in tanulokCsoportja" :key="tanulo.id" class="gyerek-nev">
-        {{ tanulo.nev
-        }}<span v-if="i < tanulokCsoportja.length - 1" class="separator">,
-        </span>
+        {{ tanulo.nev }}<span v-if="i < tanulokCsoportja.length - 1" class="separator">, </span>
       </span>
     </div>
     <div v-else class="szakkor-nincs-tanulo">
@@ -39,8 +36,9 @@ export default {
 
 <style scoped>
 .szakkor-card {
-  width: 48%;
-  margin-bottom: 20px;
+  width: 100%; 
+  max-width: 400px; 
+  margin: 10px; 
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 20px;
@@ -77,6 +75,20 @@ export default {
     transform: translateY(0);
   }
 }
+@media (max-width: 600px) {
+  .szakkor-card {
+    padding: 15px; 
+  }
+
+  .szakkor-header h2 {
+    font-size: 1.3em; 
+  }
+
+  .gyerek-nev {
+    font-size: 1em; 
+    flex: 1 1 100%; 
+  }
+}
 
 
 .szakkor-card {
@@ -88,6 +100,7 @@ export default {
 
 
 .szakkor-header,
+
 .content-table {
   opacity: 0;
   animation: fadeIn 0.8s forwards;
@@ -141,12 +154,15 @@ export default {
 
 .szakkor-gyerekek {
   padding-top: 10px;
+  display: flex;
+  flex-wrap: wrap; 
 }
 
 .gyerek-nev {
-  padding: 5px 0;
+  padding: 4px;
   color: white;
-  font-size: 1.1em;
+  font: size 4px;
+  min-width: 10px; 
 }
 
 .separator {
