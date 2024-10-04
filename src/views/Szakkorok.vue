@@ -147,10 +147,11 @@ export default {
 
 .led-separator {
   animation-delay: 0.4s;
+  
 }
 
 .led-separator2 {
-  animation-delay: 0.6s;
+  animation-delay: 1s;
 }
 
 .content-table {
@@ -255,5 +256,6 @@ export default {
   border-radius: 5px;
   animation: glow 1.5s infinite alternate;
   box-shadow: 0 0 10px rgba(76, 0, 255, 0.5), 0 0 20px rgba(0, 187, 255, 0.5);
+  
 }
 </style>
