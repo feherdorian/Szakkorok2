@@ -1,21 +1,23 @@
 <template>  
-  <div class="szakkor-card animacio" style="animation-delay: 2s">
-    <div class="szakkor-header">
-      <h2>{{ szakkor.nev }}</h2>
-      <span>
-        (Tagok: <span class="tagokSzama">{{ tanulokCsoportja.length }}</span>)
-      </span>
-    </div>
+  <div class="szakkorok-container">
+    <div class="szakkor-card animacio" style="animation-delay: 2s">
+      <div class="szakkor-header">
+        <h2>{{ szakkor.nev }}</h2>
+        <span>
+          (Tagok: <span class="tagokSzama">{{ tanulokCsoportja.length }}</span>)
+        </span>
+      </div>
 
-    <div class="led-separator"></div>
+      <div class="led-separator"></div>
 
-    <div v-if="tanulokCsoportja.length > 0" class="szakkor-gyerekek">
-      <span v-for="(tanulo, i) in tanulokCsoportja" :key="tanulo.id" class="gyerek-nev">
-        {{ tanulo.nev }}<span v-if="i < tanulokCsoportja.length - 1" class="separator">, </span>
-      </span>
-    </div>
-    <div v-else class="szakkor-nincs-tanulo">
-      <span>Nincs beiratkozott gyerek.</span>
+      <div v-if="tanulokCsoportja.length > 0" class="szakkor-gyerekek">
+        <span v-for="(tanulo, i) in tanulokCsoportja" :key="tanulo.id" class="gyerek-nev">
+          {{ tanulo.nev }}<span v-if="i < tanulokCsoportja.length - 1" class="separator">, </span>
+        </span>
+      </div>
+      <div v-else class="szakkor-nincs-tanulo">
+        <span>Nincs beiratkozott gyerek.</span>
+      </div>
     </div>
   </div>
 </template>
@@ -25,7 +27,6 @@ export default {
   props: ["szakkor", "tanulok"],
   computed: {
     tanulokCsoportja() {
-
       return this.tanulok
         .filter((t) => t.szakkorId == this.szakkor.id)
         .sort((a, b) => a.nev.localeCompare(b.nev));
@@ -35,6 +36,13 @@ export default {
 </script>
 
 <style scoped>
+.szakkorok-container {
+  display: flex;
+  justify-content: flex-end; 
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
 .szakkor-card {
   width: 100%; 
   max-width: 400px; 
@@ -64,67 +72,23 @@ export default {
   color: white;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 @media (max-width: 600px) {
+  .szakkorok-container {
+    justify-content: center; 
+  }
   .szakkor-card {
-    padding: 15px; 
+    padding: 15px;
   }
-
   .szakkor-header h2 {
-    font-size: 1.3em; 
+    font-size: 1.3em;
   }
-
   .gyerek-nev {
-    font-size: 1em; 
-    flex: 1 1 100%; 
+    font-size: 1em;
+    flex: 1 1 100%;
   }
 }
 
-
-.szakkor-card {
-  opacity: 0;
-  animation: fadeIn 0.5s forwards;
-  animation-delay: 0.1s;
-  transform-origin: bottom;
-}
-
-
-.szakkor-header,
-
-.content-table {
-  opacity: 0;
-  animation: fadeIn 0.8s forwards;
-  animation-delay: 0.2s;
-}
-
-
-.led-separator {
-  opacity: 0;
-  animation: fadeIn 0.5s forwards;
-  animation-delay: 0.4s;
-  transform-origin: bottom;
-}
-
-
-@keyframes glow {
-  0% {
-    opacity: 0.5;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
 
 .led-separator {
   background: linear-gradient(90deg, #4c00ff, #00bfff, #4c00ff);
@@ -134,35 +98,25 @@ export default {
   animation: glow 1.5s infinite alternate;
 }
 
-
-.szakkor-header span {
-  font-size: 0.9em;
-  color: #ddd;
+@keyframes glow {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
-.led-separator {
-  width: 100%;
-  height: 4px;
-  background: linear-gradient(90deg,
-      #4c00ff,
-      #00bfff,
-      #4c00ff);
-  margin: 10px 0;
-  border-radius: 2px;
-  box-shadow: 0 0 10px rgba(76, 0, 255, 0.5), 0 0 20px rgba(0, 187, 255, 0.5);
-}
 
 .szakkor-gyerekek {
   padding-top: 10px;
   display: flex;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
 }
 
 .gyerek-nev {
   padding: 4px;
   color: white;
-  font: size 4px;
-  min-width: 10px; 
 }
 
 .separator {

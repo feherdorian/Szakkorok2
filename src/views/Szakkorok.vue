@@ -3,6 +3,14 @@
     <div class="col-md-6 col-12 side-a">
       <h1 class="table-title">Táblázat</h1>
       <div class="led-separator2"></div>
+
+      <!-- Form for adding new student -->
+      <div class="form-container">
+        <input v-model="newStudent.name" placeholder="Név" class="input" />
+        <input v-model="newStudent.class" placeholder="Osztály" class="input" />
+        <button @click="addStudent" class="add-btn">Hozzáadás</button>
+      </div>
+
       <table class="content-table animacio" style="animation-delay: 1s">
         <thead>
           <tr>
@@ -15,18 +23,9 @@
           <tr v-for="(tanulo, i) in tanulok" :key="i">
             <td class="table-cell">
               <span class="icon">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  class="bi bi-person"
-                  viewBox="0 0 16 16"
-                  :style="{ color: getIconColor(tanulo.nev) }" 
-                >
-                  <path
-                    d="M3 14s-1 0-1-1 1-1 1-1h10s1 0 1 1-1 1-1 1H3zm8-9a3 3 0 1 0-6 0 3 3 0 0 0 6 0z"
-                  />
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person"
+                  viewBox="0 0 16 16" :style="{ color: getIconColor(tanulo.nev) }">
+                  <path d="M3 14s-1 0-1-1 1-1 1-1h10s1 0 1 1-1 1-1 1H3zm8-9a3 3 0 1 0-6 0 3 3 0 0 0 6 0z" />
                 </svg>
               </span>
               {{ tanulo.nev }}
@@ -34,11 +33,7 @@
             <td class="table-cell">{{ tanulo.osztaly }}</td>
             <td class="table-cell">
               <select v-model="tanulo.szakkorId" class="select">
-                <option
-                  v-for="(szakkor, i) in szakkorok"
-                  :key="i"
-                  :value="szakkor.id"
-                >
+                <option v-for="(szakkor, i) in szakkorok" :key="i" :value="szakkor.id">
                   {{ szakkor.nev }}
                 </option>
               </select>
@@ -51,16 +46,12 @@
 
     <div class="col-md-6 col-12 side-b">
       <div class="szakkor-lista">
-        <GyerekLista
-          v-for="szakkor in szakkorok"
-          :key="szakkor.id"
-          :szakkor="szakkor"
-          :tanulok="tanulok"
-        />
+        <GyerekLista v-for="szakkor in szakkorok" :key="szakkor.id" :szakkor="szakkor" :tanulok="tanulok" />
       </div>
     </div>
   </div>
 </template>
+
 <script>
 import GyerekLista from "../components/Gyereklista.vue";
 
@@ -71,7 +62,7 @@ export default {
   data() {
     return {
       tanulok: [
-        { id: 1, nev: "Erős Anna ", osztaly: "3a", szakkorId: 1 },
+        { id: 1, nev: "Erős Anna", osztaly: "3a", szakkorId: 1 },
         { id: 2, nev: "Gyenge Julianna", osztaly: "7b", szakkorId: 1 },
         { id: 3, nev: "Kis Pista", osztaly: "1a", szakkorId: 1 },
         { id: 4, nev: "Ledacs-Kiss Pista", osztaly: "8a", szakkorId: 1 },
@@ -88,12 +79,30 @@ export default {
         { id: 5, nev: "Kosárlabda" },
         { id: 6, nev: "Football" },
       ],
+
+      newStudent: {
+        name: "",
+        class: "",
+      },
     };
   },
   methods: {
     getIconColor(name) {
-      const girlNames = ["Anna", "Julianna", "Margit", "Erzsébet"]; 
-      return girlNames.some(girlName => name.includes(girlName)) ? "pink" : "blue";
+      const girlNames = ["Anna", "Julianna", "Margit", "Erzsébet"];
+      return girlNames.some((girlName) => name.includes(girlName)) ? "pink" : "blue";
+    },
+
+    addStudent() {
+      if (this.newStudent.name && this.newStudent.class) {
+        this.tanulok.push({
+          id: this.tanulok.length + 1,
+          nev: this.newStudent.name,
+          osztaly: this.newStudent.class,
+          szakkorId: 1, 
+        });
+        this.newStudent.name = "";
+        this.newStudent.class = "";
+      }
     },
   },
 };
@@ -102,7 +111,7 @@ export default {
 
 <style scoped>
 .table-title {
-  font-size: 2em;
+  font-size: 1.8em;
   color: var(--color);
   text-align: center;
   margin-bottom: 20px;
@@ -147,7 +156,6 @@ export default {
 
 .led-separator {
   animation-delay: 0.4s;
-  
 }
 
 .led-separator2 {
@@ -159,21 +167,11 @@ export default {
   animation-delay: 1s;
 }
 
-@keyframes glow {
-  0% {
-    opacity: 0.5;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
 .content-table {
   border-collapse: collapse;
-  margin: 25px 0;
-  font-size: 1em;
-  min-width: 800px;
+  margin: 15px 0;
+  font-size: 0.9em;
+  min-width: 100%;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
@@ -188,7 +186,7 @@ export default {
 
 .content-table th,
 .content-table td {
-  padding: 12px 15px;
+  padding: 8px 10px;
 }
 
 .content-table tbody tr {
@@ -226,10 +224,10 @@ export default {
 }
 
 .select {
-  padding: 6px 10px;
+  padding: 4px 8px;
   border: 1px solid var(--color);
   border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--color);
   color: white;
   transition: background-color 0.3s;
 }
@@ -239,9 +237,9 @@ export default {
 }
 
 .led-separator {
-  height: 5px;
-  width: 90%;
-  margin: 20px 0;
+  height: 3px;
+  width: 100%;
+  margin: 10px 0;
   background: linear-gradient(90deg, #4c00ff, #00bfff, #4c00ff);
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(76, 0, 255, 0.5), 0 0 20px rgba(0, 187, 255, 0.5);
@@ -249,13 +247,75 @@ export default {
 }
 
 .led-separator2 {
-  height: 5px;
+  height: 3px;
   width: 20%;
   margin: 2px auto;
   background: linear-gradient(90deg, #4c00ff, #00bfff, #4c00ff);
   border-radius: 5px;
   animation: glow 1.5s infinite alternate;
   box-shadow: 0 0 10px rgba(76, 0, 255, 0.5), 0 0 20px rgba(0, 187, 255, 0.5);
-  
+}
+
+@media (max-width: 768px) {
+  .content-table {
+    font-size: 0.8em;
+    min-width: 100%;
+  }
+
+  .table-title {
+    font-size: 1.6em;
+  }
+
+  .select {
+    padding: 4px;
+  }
+}
+.form-container {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.input {
+  padding: 8px;
+  margin-right: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--color);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.add-btn {
+  padding: 8px 16px;
+  background-color: var(--color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-btn:hover {
+  background-color: rgba(0, 187, 255, 0.8);
+}
+
+.icon {
+  display: inline-block;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+.select {
+  padding: 4px 8px;
+  border: 1px solid var(--color);
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.select:hover {
+  background-color: var(--color);
 }
 </style>
